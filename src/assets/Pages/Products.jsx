@@ -15,6 +15,7 @@ import Filterer from "../Components/Filterer";
 import { PrWithDesc } from "./Products/SingleProduct";
 import _ from "lodash";
 import { IconFilter } from "@tabler/icons-react";
+import { Link } from "react-router-dom";
 const Products = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -24,7 +25,6 @@ const Products = () => {
     isError: isPrError,
     isLoading: isPrLoading,
   } = useGetProductsQuery();
-
   return (
     <>
       <div className="page-header d-print-none">
@@ -55,49 +55,59 @@ const Products = () => {
       <div className="page-body">
         <div className="container-xl">
           <div className="row g-4">
-            <div className="col-12">
-              <div className="grid">
-                {isPrSuccess &&
-                  Array.isArray(Products?.data?.rows) &&
-                  _.map(Products?.data?.rows, (item) => {
-                    return (
-                      <>
-                        <div className="col-span-12 xs:col-span-6 sm:col-span-4 md:col-span-3">
+            <div className=" xs:col-12 col-3">
+              <Filterer />
+            </div>
+            <div className="col-9 xs:col-12 flex flex-wrap gap-3">
+              {isPrSuccess &&
+                Array.isArray(Products?.data?.rows) &&
+                _.map(Products?.data?.rows, (item) => {
+                  return (
+                    <>
+                      <div className="flex-grow basis-1/4	">
+                        <Link to={`/product/${item.id}?v=0`}>
                           <PrWithDesc data={item} />
-                        </div>
-                        <div className="col-span-12 xs:col-span-6 sm:col-span-4 md:col-span-3">
+                        </Link>
+                      </div>
+                      <div className="flex-grow basis-1/4	">
+                        <Link to={`/product/${item.id}?v=0`}>
                           <PrWithDesc data={item} />
-                        </div>
-                        <div className="col-span-12 xs:col-span-6 sm:col-span-4 md:col-span-3">
+                        </Link>
+                      </div>
+                      <div className="flex-grow basis-1/4	">
+                        <Link to={`/product/${item.id}?v=0`}>
                           <PrWithDesc data={item} />
-                        </div>
-                        <div className="col-span-12 xs:col-span-6 sm:col-span-4 md:col-span-3">
+                        </Link>
+                      </div>
+                      <div className="flex-grow basis-1/4	 ">
+                        <Link to={`/product/${item.id}?v=0`}>
                           <PrWithDesc data={item} />
-                        </div>
-                        <div className="col-span-12 xs:col-span-6 sm:col-span-4 md:col-span-3">
+                        </Link>
+                      </div>
+                      <div className="flex-grow basis-1/4	">
+                        <Link to={`/product/${item.id}?v=0`}>
                           <PrWithDesc data={item} />
-                        </div>
-                        <div className="col-span-12 xs:col-span-6 sm:col-span-4 md:col-span-3">
+                        </Link>
+                      </div>
+                      <div className="flex-grow basis-1/4	">
+                        <Link to={`/product/${item.id}?v=0`}>
                           <PrWithDesc data={item} />
-                        </div>
-                        <div className="col-span-12 xs:col-span-6 sm:col-span-4 md:col-span-3">
-                          <PrWithDesc data={item} />
-                        </div>
-                        <div className="col-span-12 xs:col-span-6 sm:col-span-4 md:col-span-3">
-                          <PrWithDesc data={item} />
-                        </div>
-                        <div className="col-span-12 xs:col-span-6 sm:col-span-4 md:col-span-3">
-                          <PrWithDesc data={item} />
-                        </div>
-                      </>
-                    );
-                  })}
-              </div>
+                        </Link>
+                      </div>
+                    </>
+                  );
+                })}
             </div>
           </div>
         </div>
       </div>
-      <Modal size="lg" scrollBehavior="inside" backdrop="blur" isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal
+        size="lg"
+        scrollBehavior="inside"
+        backdrop="blur"
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      >
         <ModalContent>
           {(onClose) => (
             <>

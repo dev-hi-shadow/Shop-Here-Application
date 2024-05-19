@@ -118,3 +118,5 @@ export const USER_ROLES = Object.freeze({
   customer: "CUSTOMERS",
   admin: "ADMIN",
 });
+
+export const FETCH_PRODUCT_DATA = Object.freeze({ OVERVIEW: "productOverview" });

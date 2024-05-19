@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const baseQuery = fetchBaseQuery({
   // baseUrl: import.meta.env.VITE_NODE_SERVER_API,
-  baseUrl: "https://jsonplaceholder.typicode.com/comments",
+  baseUrl: "",
 });
 export const searchResult = createApi({
   baseQuery,

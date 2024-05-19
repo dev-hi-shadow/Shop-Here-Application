@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Card, CardHeader, CardBody, Image } from "@nextui-org/react";
-import image from "/public/dist/img/not-found/image.jpg";
+// import image from "/public/dist/img/not-found/image.jpg";
 export const PrWithDesc = ({ data }) => {
   return (
     <Card className="py-4">
@@ -8,7 +8,7 @@ export const PrWithDesc = ({ data }) => {
         <Image
           alt="Card background"
           className="object-cover rounded-xl opacity-100"
-          src={data.main_image || image}
+          src={data.main_image || `https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/shoes/34.png`}
           width={270}
         />
       </CardHeader>

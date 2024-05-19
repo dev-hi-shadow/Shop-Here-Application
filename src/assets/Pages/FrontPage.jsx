@@ -7,8 +7,8 @@ const FrontPage = () => {
   return (
     <>
       <div className="page-wrapper">
-        <div className="page-body">
-          <div className="container-xl">
+        <div className="page-body m-0">
+          <div className="container-xl p-0">
             <Swiper
               grabCursor={true}
               effect={"creative"}
@@ -26,7 +26,7 @@ const FrontPage = () => {
               }}
               modules={[Autoplay, EffectCreative]}
             >
-              {Array.from({ length: 7 }).map((i, index) => {
+              {Array.from({ length: 8 }).map((i, index) => {
                 return (
                   <SwiperSlide key={index}>
                     <img

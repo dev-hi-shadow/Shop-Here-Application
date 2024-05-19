@@ -11,6 +11,14 @@ export const product = createApi({
         method: "GET",
       }),
     }),
+    GetProduct: builder.query({
+      query: ({ id, type }) => {
+         return {
+          url: `/products/${id}?type=${type}`,
+          method: "GET",
+        };  
+      },
+    }),
     CreateProduct: builder.mutation({
       query: (data) => ({
         url: "/products/create",
@@ -36,6 +44,7 @@ export const product = createApi({
 
 export const {
   useGetProductsQuery,
+  useGetProductQuery,
   useCreateProductMutation,
   useDeleteProductMutation,
   useUpdateProductMutation,

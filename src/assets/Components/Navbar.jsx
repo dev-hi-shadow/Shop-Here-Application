@@ -6,42 +6,50 @@ import {
   User,
 } from "@nextui-org/react";
 import NextInput from "./NextUI/NextInput";
-import { IconMapPin, IconSearch, IconXboxX } from "@tabler/icons-react";
-import { useRef, useState } from "react";
-import { useGetSearchResultMutation } from "../../Services/API/SearchResult";
+import {
+  IconMapPin,
+  IconMoon,
+  IconSearch,
+  IconSun,
+  IconXboxX,
+} from "@tabler/icons-react";
+import { useState } from "react";
+// import { useGetSearchResultMutation } from "../../Services/API/SearchResult";
+import NextSwitch from "./NextUI/NextSwitch";
 
 const Navbar = () => {
-  const [KeyWord, setKeyWord] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const abortControllerRef = useRef(new AbortController());
+  const [isDarkMode, setIsDarkMode] = useState("");
 
-  const [getSearchResult] = useGetSearchResultMutation();
+  // const [getSearchResult] = useGetSearchResultMutation();
 
   const handleSearchChange = async (event) => {
     const query = event.target.value;
     setSearchQuery(query);
-
-    // Cancel previous request
-    abortControllerRef.current.abort();
-
-    // Create a new AbortController for the next request
-    abortControllerRef.current = new AbortController();
-
-    try {
-      const response = await getSearchResult(query, {
-        signal: abortControllerRef.current.signal,
-      });
-      console.log("🚀 response:", response);
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    // const response = await getSearchResult(query);
   };
 
   return (
     <>
-      <div className="mb-3">
+      <>
         <header className="navbar navbar-expand-md d-print-none">
           <div className="container-xl gap-3">
+            <div className="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+              <a href=".">
+                <img
+                  src="./static/logo-small.svg"
+                  width="32"
+                  height="32"
+                  alt="Tabler"
+                  className="navbar-brand-image me-3"
+                />
+              </a>
+              <span className="text-white dark:text-black">
+                {" "}
+                Your Brand Name{" "}
+              </span>
+            </div>
+
             <button
               className="navbar-toggler"
               type="button"
@@ -53,18 +61,8 @@ const Navbar = () => {
             >
               <span className="navbar-toggler-icon"></span>
             </button>
-            <h1 className="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-              <a href=".">
-                <img
-                  src="./static/logo-small.svg"
-                  width="32"
-                  height="32"
-                  alt="Tabler"
-                  className="navbar-brand-image me-3"
-                />
-              </a>
-            </h1>
-            <div className="flex align-middle gap-x-2">
+
+            <div className="flex align-middle gap-x-2 dark:text-white">
               <IconMapPin className="my-auto" size={40} />
               <h6 className="flex flex-col">
                 <small>Deliveres to</small>
@@ -369,6 +367,14 @@ const Navbar = () => {
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
+              <NextSwitch
+                isSelected={isDarkMode}
+                startContent={<IconSun />}
+                endContent={<IconMoon />}
+                size="sm"
+                onChange={() => setIsDarkMode((isDarkMode) => !isDarkMode)}
+                s
+              />
             </div>
           </div>
         </header>
@@ -556,7 +562,7 @@ const Navbar = () => {
             </div>
           </div>
         </header>
-      </div>
+      </>
     </>
   );
 };

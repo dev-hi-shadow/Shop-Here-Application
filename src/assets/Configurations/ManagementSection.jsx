@@ -1,10 +1,12 @@
 import FrontPage from "../Pages/FrontPage";
+import ProductOverview from "../Pages/Product-Overview";
 import Products from "../Pages/Products";
+  
 
  export const PageRoutes = [
   { path: "/", element: <FrontPage /> },
   { path: "/products", element: <Products /> },
-//   { path: "/dashboard", element: <Dashboard /> },
+  { path: "/product/:id", element: <ProductOverview /> },
 //   { path: "/brand", element: <Brand /> },
 //   { path: "/category", element: <Category /> },
 //   { path: "/sub-category", element: <SubCategory /> },
