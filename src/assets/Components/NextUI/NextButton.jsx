@@ -12,15 +12,16 @@ const NextButton = ({
   type,
   onClick = () => console.log("please provide onClick functions"),
   className = "",
+  size="md",
   ...rest
 }) => {
   return (
     <div>
       <Button
- 
+        size={size}
         onPress={onClick}
         color={color}
-        className={"h-10 min-h-10 " + className}
+        className={"h-10 min-h-10" + className}
         variant={varient}
         isLoading={isLoading}
         isDisabled={isDisabled}

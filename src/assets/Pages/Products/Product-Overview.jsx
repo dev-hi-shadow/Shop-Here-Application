@@ -1,26 +1,33 @@
-import NextImage from "../Components/NextUI/NextImage";
-import NextScrollShadow from "../Components/NextUI/NextScrollShadow";
+import NextImage from "../../Components/NextUI/NextImage";
+import NextScrollShadow from "../../Components/NextUI/NextScrollShadow";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useGetProductQuery } from "../../Services/API/Products";
+import { useGetProductQuery } from "../../../Services/API/Products";
 import { IconChevronDown, IconStarFilled } from "@tabler/icons-react";
 import _ from "lodash";
 import { useState } from "react";
 import { useEffect } from "react";
-import { FETCH_PRODUCT_DATA } from "../Helpers";
-import ReactCountUp from "../Components/NextUI/ReactCountUp";
-import { useGetOffersQuery } from "../../Services/API/Offers";
-import Popper from "../Components/NextUI/Popper";
+import { FETCH_PRODUCT_DATA } from "../../Helpers";
+import ReactCountUp from "../../Components/NextUI/ReactCountUp";
+import { useGetOffersQuery } from "../../../Services/API/Offers";
+import Popper from "../../Components/NextUI/Popper";
 import { Button, ButtonGroup, Tab, Tabs } from "@nextui-org/react";
-import NextDropDown from "../Components/NextUI/NextDropDown";
-import { REVIEWS_FILTER, SEARCH_QUERY } from "../Constants";
-import ProductReview from "../Components/Custom/ProductReview";
-import RatingSummery from "../Components/Custom/RatingSummery";
-import NextButton from "../Components/NextUI/NextButton";
+import NextDropDown from "../../Components/NextUI/NextDropDown";
+import { REVIEWS_FILTER, SEARCH_QUERY } from "../../Constants";
+import ProductReview from "../../Components/Custom/ProductReview";
+import RatingSummery from "../../Components/Custom/RatingSummery";
+import NextButton from "../../Components/NextUI/NextButton";
+import { useAddToCartMutation } from "../../../Services/API/Carts";
+import { useAlert } from "../../Hooks/Toastify";
+import useHash from "../../Hooks/useHash";
 
 export default function ProductOverview() {
-  const { id } = useParams();
+  const { decode } = useHash();
+  let { id } = useParams();
   const Location = useLocation();
   const Navigate = useNavigate();
+  const { showAlert } = useAlert();
+
+  const [AddToCart, { isLoading: addToCartLoading }] = useAddToCartMutation();
   const searchParams = new URLSearchParams(Location.search);
   const v = searchParams.get("v");
   const reviewFilter = searchParams.get(SEARCH_QUERY.REVIEWS_FILTER);
@@ -28,14 +35,14 @@ export default function ProductOverview() {
   const [Variations, setVariations] = useState();
   const [Reviews, setReviews] = useState();
   const [activeVariation, setActiveVariation] = useState();
-   const [Picture, setPicture] = useState({
+  const [Picture, setPicture] = useState({
     file_name: null,
     index: 0,
   });
   const [selectedVariationTab, setSelectedVariationTab] = useState({});
 
   let { data: product } = useGetProductQuery({
-    id,
+    id: decode(id),
     type: FETCH_PRODUCT_DATA.OVERVIEW,
   });
   let { data: offers, isSuccess: OfferSuccess } = useGetOffersQuery();
@@ -60,7 +67,7 @@ export default function ProductOverview() {
 
   useEffect(() => {
     if (product) {
-      setActiveVariation(product?.data?.variations[v]);
+      setActiveVariation(product?.data?.variations[decode(v)]);
       setPicture({
         file_name: product?.data?.files[0]?.file_name,
         index: 0,
@@ -107,14 +114,21 @@ export default function ProductOverview() {
       Navigate({ search: searchParams.toString() }, { replace: true });
     }
   };
-  const handleAddToCart = () => {
-    let data = {
+  const handleAddToCart = async () => {
+    const toastid = showAlert(null, `Adding to cart`, "info");
+    let payload = {
       product_id: product?.data?.id,
-      variation: activeVariation.id,
+      variation_id: activeVariation.id,
       quantity: 1,
     };
-    console.log(data);
+    try {
+      const data = await AddToCart(payload).unwrap();
+      showAlert(toastid, data.message, data.success || data?.status);
+    } catch (error) {
+      showAlert(toastid, error.message, false);
+    }
   };
+
   const handleBuyNow = () => {};
   useEffect(() => {
     if (reviewFilter) {
@@ -176,6 +190,7 @@ export default function ProductOverview() {
                         onClick={handleAddToCart}
                         buttonText="Add to cart"
                         className="w-full"
+                        isLoading={addToCartLoading}
                       />
                     </div>
                     <div className="w-1/2 px-2">

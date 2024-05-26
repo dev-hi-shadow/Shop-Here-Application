@@ -10,14 +10,16 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 
-import { useGetProductsQuery } from "../../Services/API/Products";
-import Filterer from "../Components/Filterer";
-import { PrWithDesc } from "./Products/SingleProduct";
+import { useGetProductsQuery } from "../../../Services/API/Products";
+import Filterer from "../../Components/Filterer";
+import { PrWithDesc } from "./SingleProduct";
 import _ from "lodash";
 import { IconFilter } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
+import useHash from "../../Hooks/useHash";
 const Products = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { encode, decode } = useHash();
 
   const {
     data: Products,
@@ -65,32 +67,32 @@ const Products = () => {
                   return (
                     <>
                       <div className="flex-grow basis-1/4	">
-                        <Link to={`/product/${item.id}?v=0`}>
+                        <Link to={`/p/${encode(item.id)}?v=${encode(0)}`}>
                           <PrWithDesc data={item} />
                         </Link>
                       </div>
                       <div className="flex-grow basis-1/4	">
-                        <Link to={`/product/${item.id}?v=0`}>
-                          <PrWithDesc data={item} />
+                        <Link to={`/p/${encode(item.id)}?v=${encode(0)}`}>
+                        <PrWithDesc data={item} />
                         </Link>
                       </div>
                       <div className="flex-grow basis-1/4	">
-                        <Link to={`/product/${item.id}?v=0`}>
+                      <Link to={`/p/${encode(item.id)}?v=${encode(0)}`}>
                           <PrWithDesc data={item} />
                         </Link>
                       </div>
                       <div className="flex-grow basis-1/4	 ">
-                        <Link to={`/product/${item.id}?v=0`}>
+                      <Link to={`/p/${encode(item.id)}?v=${encode(0)}`}>
                           <PrWithDesc data={item} />
                         </Link>
                       </div>
                       <div className="flex-grow basis-1/4	">
-                        <Link to={`/product/${item.id}?v=0`}>
+                      <Link to={`/p/${encode(item.id)}?v=${encode(0)}`}>
                           <PrWithDesc data={item} />
                         </Link>
                       </div>
                       <div className="flex-grow basis-1/4	">
-                        <Link to={`/product/${item.id}?v=0`}>
+                      <Link to={`/p/${encode(item.id)}?v=${encode(0)}`}>
                           <PrWithDesc data={item} />
                         </Link>
                       </div>
